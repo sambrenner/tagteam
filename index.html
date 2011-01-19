@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="lib/css/reset.css" />
+  <link rel="stylesheet" href="lib/css/style.css" />
+  
+  <script src="http://127.0.0.1:8080/socket.io/socket.io.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script src="client.js"></script>
+  
+  <title>Tag Team</title>
+</head>
+
+<body>
+  <header>
+    <h1>TAG TEAM</h1>
+    <h2></h2>
+  </header>
+
+  <section id="welcome">
+    <h2>Which do you like more:</h2>
+    <p><a href="#draw">Drawing</a> or <a href="#write">Writing</a>?</p>
+  </section>
+  
+  <!--<section id="chat">
+    <input type="text" id="inputTxt" value="" />
+    <input type="button" id="inputBtn" value="Send" />
+  
+    <ul id="log">
+      <li>Messages</li>
+    </ul>
+  </section>-->
+  
+  <section id="chat">
+    <section id="drawbox">
+      <h2>Drawing!</h2>
+      <canvas id="drawcanvas" width="400" height="600"></canvas>
+    </section>
+    
+    <section id="writebox">
+      <h2>Writing!</h2>
+      <textarea></textarea>
+    </section>
+  </section>
+  
+  <section id="error">
+    <p>This currently doesn't work on the cpbinteractive server; it must be run locally. svn checkout this repo or grab the source <a href="websockets.zip">here</a>. read the <a href="README.txt">readme</a>.</p>
+  </section>
+  
+  
+</body>
+</html>
+
