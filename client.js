@@ -28,7 +28,7 @@ var Utils = function() {
       return [x,y];
     }
   }
-}
+}();
 
 var TagTeam = function() {
 
@@ -39,7 +39,7 @@ var TagTeam = function() {
   return self = {
     
     initDom:function(){
-      _$canvas = $('drawcanvas');
+      _$canvas = $('#drawcanvas');
       _ctx = document.getElementById('drawcanvas').getContext('2d');
     
       $('section').each(function(i){
@@ -156,7 +156,7 @@ var TagTeam = function() {
     },
     
     sendDrawing:function(){
-      _socket.send('draw_' + _canvas.toDataURL());
+      _socket.send('draw_' + document.getElementById('drawcanvas').toDataURL());
     },
     
     sendWriting:function(){
