@@ -9,6 +9,7 @@ header, #welcome, #error { margin:0 auto; width:600px; }
 
 #chat{ margin:0 auto; width:805px; }
 #writebox, #drawbox { width:400px; }
+#status { text-align: center; }
 
 #drawbox { float:left; }
 #drawbox canvas { border:1px solid #000; }

@@ -5,9 +5,7 @@ client.js
 
 */
 
-var url = document.URL;
-var serverUrl = url.substring(0, url.length - 1) + ':8080/';
-console.log(url);
+var serverUrl = 'http://warm-sky-7406.herokuapp.com/';
 
 WEB_SOCKET_SWF_LOCATION = serverUrl + 'socket.io/WebSocketMain.swf';
 
@@ -83,18 +81,23 @@ var TagTeam = function() {
     },
     
     onSocketMessageArrival:function(msg){
-      var writeCode = 'from_server_write_',
+    	var writeCode = 'from_server_write_',
           drawCode = 'from_server_draw_';
       
-      if(msg.indexOf(writeCode) == 0)
+      if(msg.indexOf(writeCode) == 0 || msg.indexOf(drawCode) == 0)
       {
-        $('#writebox textarea').val(msg.slice(writeCode.length));
-      }
-      else if(msg.indexOf(drawCode) == 0) 
-      {
-        var img = new Image();
-        img.src = msg.slice(drawCode.length);
-        _ctx.drawImage(img,0,0);
+	      if(msg.indexOf(writeCode) == 0)
+	      {
+	        $('#writebox textarea').val(msg.slice(writeCode.length));
+	      }
+	      else if(msg.indexOf(drawCode) == 0) 
+	      {
+	        var img = new Image();
+	        img.src = msg.slice(drawCode.length);
+	        _ctx.drawImage(img,0,0);
+	      }
+	      
+	      $('#status span').text('Paired');
       }
     },
     
@@ -111,6 +114,7 @@ var TagTeam = function() {
         switch($(this).attr('href')){
           case '#draw':
             $(this).bind('click',function(){self.onPreferenceSelect('draw')});
+            self.initCanvas();
             break;
           case '#write':
             $(this).bind('click',function(){self.onPreferenceSelect('write')});
@@ -125,6 +129,7 @@ var TagTeam = function() {
       $('#welcome').hide();
       
       $('#chat').show();
+      $('#status').show();
       $('#drawbox').show();
       $('#writebox').show();
       
@@ -174,6 +179,5 @@ var TagTeam = function() {
 
 $(document).ready(function(){
   TagTeam.initDom();  
-  TagTeam.initCanvas();
   TagTeam.initSocket();
 });
