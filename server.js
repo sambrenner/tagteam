@@ -5,11 +5,10 @@ server.js
 
 */
 
-var sys = require("sys")
+var util = require("util")
   , fs = require("fs")
   , path = require("path")
-  , http = require("http")
-  , io = require('socket.io');
+  , http = require("http");
 
 var aClients = []
   , bClients = []
@@ -22,13 +21,17 @@ var server = http.createServer(function (req, res) {
     res.end();
 });
 
+server.listen(8080);
+
+var io = require("socket.io").listen(server);
+
 function onSocketConnection(client)
 {
   clients.push(client);
   client.send('Your Session ID is ' + client.sessionId);
   client.on('message', function(msg){onMessageReceived(msg,client.sessionId);});
   client.on('disconnect', function(){onClientDisconnect(client.sessionId);});
-  sys.log('Client Connected. Total clients: ' + clients.length);
+  util.log('Client Connected. Total clients: ' + clients.length);
 }
 
 function onClientDisconnect(clientId)
@@ -44,12 +47,12 @@ function onClientDisconnect(clientId)
   
   //if the client disconnected was paired with another user, mark that user as unpaired
   
-  sys.log('Client Disconnected. Total clients: ' + clients.length);
+  util.log('Client Disconnected. Total clients: ' + clients.length);
 }
 
 function onMessageReceived(msg,sessionId)
 {
-  //sys.log('Message Received: ' + msg);
+  //util.log('Message Received: ' + msg);
   
   if(msg === 'pref_draw')
   {
@@ -116,15 +119,15 @@ function checkForUnpairedUsers()
           shorterPref[i].paired = true;
           longerPref[j].paired = true;
           
-          sys.log('Paired user ' + shorterPref[i].id + ' with user ' + longerPref[j].id);
+          util.log('Paired user ' + shorterPref[i].id + ' with user ' + longerPref[j].id);
         }
       }
     }
   }
 }
 
-server.listen(8080);
-var socket = io.listen(server);
-socket.on('connection', onSocketConnection);
+io.sockets.on('connection', function(socket) {
+	onSocketConnection(socket);
+});
+
 setInterval(checkForUnpairedUsers,500);
-sys.puts('Server running at http://127.0.0.1:8080/');

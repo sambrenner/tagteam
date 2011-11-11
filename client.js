@@ -5,14 +5,18 @@ client.js
 
 */
 
-WEB_SOCKET_SWF_LOCATION = 'http://127.0.0.1:8080/socket.io/WebSocketMain.swf';
+var url = document.URL;
+var serverUrl = url.substring(0, url.length - 1) + ':8080/';
+console.log(url);
+
+WEB_SOCKET_SWF_LOCATION = serverUrl + 'socket.io/WebSocketMain.swf';
 
 var Utils = function() {
 
   return self = {
     
     getMousePositionFromEvent:function(e){
-      var x,y,canvas=document.getElementById('drawcanvas');
+      var x,y,canvas=TagTeam.getDomCanvas();
       
       if (e.pageX || e.pageY) { 
         x = e.pageX;
@@ -33,6 +37,7 @@ var Utils = function() {
 var TagTeam = function() {
 
   var _$canvas,
+      _canvas,
       _ctx,
       _socket;
   
@@ -40,7 +45,8 @@ var TagTeam = function() {
     
     initDom:function(){
       _$canvas = $('#drawcanvas');
-      _ctx = document.getElementById('drawcanvas').getContext('2d');
+      _canvas = document.getElementById('drawcanvas');
+      _ctx = _canvas.getContext('2d');
     
       $('section').each(function(i){
         $(this).hide();
@@ -54,7 +60,7 @@ var TagTeam = function() {
     initSocket:function(){
       
       try {
-        _socket = new io.Socket('127.0.0.1', {port:8080});
+        _socket = io.connect(serverUrl);
       } catch(e) {
         $('#init').hide();
         $('#error').show();
@@ -65,9 +71,6 @@ var TagTeam = function() {
       _socket.on('message', self.onSocketMessageArrival);
       _socket.on('close', self.onSocketClose);
       _socket.on('disconnect', self.onSocketDisconnect);
-      
-      _socket.connect();
-      
     },
         
     onSocketConnect:function(){
@@ -156,11 +159,15 @@ var TagTeam = function() {
     },
     
     sendDrawing:function(){
-      _socket.send('draw_' + document.getElementById('drawcanvas').toDataURL());
+      _socket.send('draw_' + _canvas.toDataURL());
     },
     
     sendWriting:function(){
       _socket.send('write_' + $('#writebox textarea').val());
+    },
+    
+    getDomCanvas:function(){
+      return _canvas;
     }
   }
 }();
