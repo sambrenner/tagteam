@@ -17,7 +17,7 @@ var aClients = []
 
 var server = http.createServer(function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write('<h1>I am a server. Watch me serve.</h1>');
+    res.write('<h1>I am a server! Watch me serve!</h1>');
     res.end();
 });
 
@@ -33,7 +33,7 @@ function onSocketConnection(client)
   client.send('Your Session ID is ' + client.sessionId);
   client.on('message', function(msg){onMessageReceived(msg,client.sessionId);});
   client.on('disconnect', function(){onClientDisconnect(client.sessionId);});
-  util.log('Client Connected. Total clients: ' + clients.length);
+  console.log('Client Connected. Total clients: ' + clients.length);
 }
 
 function onClientDisconnect(clientId)
@@ -49,12 +49,12 @@ function onClientDisconnect(clientId)
   
   //if the client disconnected was paired with another user, mark that user as unpaired
   
-  util.log('Client Disconnected. Total clients: ' + clients.length);
+  console.log('Client Disconnected. Total clients: ' + clients.length);
 }
 
 function onMessageReceived(msg,sessionId)
 {
-  //util.log('Message Received: ' + msg);
+  //console.log('Message Received: ' + msg);
   
   if(msg === 'pref_draw')
   {
@@ -121,7 +121,15 @@ function checkForUnpairedUsers()
           shorterPref[i].paired = true;
           longerPref[j].paired = true;
           
-          util.log('Paired user ' + shorterPref[i].id + ' with user ' + longerPref[j].id);
+          console.log('Paired user ' + shorterPref[i].id + ' with user ' + longerPref[j].id);
+          
+          for(var k=0; k<clients.length; k++)
+			    {
+			      if(clients[k].sessionId === shorterPref[i].id || clients[k].sessionId === longerPref[j].id) {
+			      	clients[k].send("paired");
+			      	console.log('Sent Paired Notification!');
+			      }
+			    }
         }
       }
     }

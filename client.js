@@ -6,6 +6,7 @@ client.js
 */
 
 var serverUrl = 'http://warm-sky-7406.herokuapp.com/';
+//var serverUrl = 'http://127.0.0.1:8080';
 
 WEB_SOCKET_SWF_LOCATION = serverUrl + 'socket.io/WebSocketMain.swf';
 
@@ -73,6 +74,7 @@ var TagTeam = function() {
         
     onSocketConnect:function(){
       $('#init').hide();
+      $('.loading').hide();
       $('#welcome').show();
       
       self.bindPreferenceClicks();
@@ -96,9 +98,8 @@ var TagTeam = function() {
 	        img.src = msg.slice(drawCode.length);
 	        _ctx.drawImage(img,0,0);
 	      }
-	      
-	      $('#status span').text('Paired');
       }
+      else if(msg === 'paired') $('#status span').text('Paired');
     },
     
     onSocketClose:function(){

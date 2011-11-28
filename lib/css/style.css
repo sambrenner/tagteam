@@ -5,24 +5,32 @@ h1 { font-size:26px; }
 h2 { font-size:18px; }
 p { font-family:Georgia,serif; font-size:14px; }
 
-header, #welcome, #error { margin:0 auto; width:600px; }
+#main_content { margin:0 auto; width:805px; }
 
 #chat{ margin:0 auto; width:805px; }
 #writebox, #drawbox { width:400px; }
-#status { text-align: center; }
+#status { border-bottom: 1px solid #000; margin-bottom: 15px; padding-bottom: 20px; text-align: center; }
 
 #drawbox { float:left; }
 #drawbox canvas { border:1px solid #000; }
 
 #writebox { float:right; }
 #writebox h2, #drawbox h2 { margin-bottom:10px; }
-#writebox textarea { width:400px; height:600px; border:1px solid #000; }
+#writebox textarea { width:400px; height:400px; border:1px solid #000; }
 
 
 header { margin-bottom:10px; }
-header h1 { text-align:center; }
+header h1,
+header h2 { text-align: center; margin-bottom: 6px; }
 
 #welcome h2 { text-align:center; }
 #welcome p { font-family:Helvetica,Arial,sans-serif; text-align:center; }
 #welcome a{ font-size:18px; font-weight:bold; color:#000; }
 #welcome a:visited { color:#000; }
+
+.loading { background: url('/tagteam/lib/img/loading.gif') 0 0 no-repeat; display: block; margin: 0 auto; height: 32px; width: 32px; }
+
+#loading p { width: 400px; }
+
+footer { position: absolute; bottom: 3px; left: 0; padding: 0 1%; width: 98%; }
+footer p { font-size: 11px; }
